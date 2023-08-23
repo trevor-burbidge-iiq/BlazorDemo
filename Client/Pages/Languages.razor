@@ -1,9 +1,17 @@
 ﻿@page "/languages"
 
-<h3>Languages</h3>
+<h3>
+    Languages 
+    @if (!string.IsNullOrEmpty(searchTerm))
+    {
+        <span class="text-secondary">(Starting with "@searchTerm")</span>
+    }
+</h3>
 
+<input @bind-value="searchTerm" @bind-value:event="oninput" />
+<button @onclick="() => searchTerm = null">Clear</button>
 <ul>
-    @foreach (var language in languages)
+    @foreach (var language in filteredLanguages)
     {
         <li>@language</li>
     }
@@ -11,4 +19,6 @@
 
 @code {
     private List<string> languages = new() { "C#", "Java", "C" };
+    private string? searchTerm;
+    private IEnumerable<string> filteredLanguages => languages.Where(l => l.StartsWith(searchTerm ?? "", StringComparison.InvariantCultureIgnoreCase));
 }
