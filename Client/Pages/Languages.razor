@@ -28,5 +28,6 @@
     protected override async Task OnInitializedAsync()
     {
         languages = await httpClient.GetFromJsonAsync<List<LanguageApiModel>>("api/languages");
+        languages = languages.OrderBy(l => l.Name).ToList();
     }
 }
