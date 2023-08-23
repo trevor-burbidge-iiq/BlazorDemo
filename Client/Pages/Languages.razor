@@ -1,4 +1,7 @@
 ﻿@page "/languages"
+@using BlazorDemo.Shared.ApiModels;
+
+@inject HttpClient httpClient
 
 <h3>
     Languages 
@@ -13,12 +16,17 @@
 <ul>
     @foreach (var language in filteredLanguages)
     {
-        <li>@language</li>
+        <li>@language.Name</li>
     }
 </ul>
 
 @code {
-    private List<string> languages = new() { "C#", "Java", "C" };
+    private List<LanguageApiModel> languages = new();
     private string? searchTerm;
-    private IEnumerable<string> filteredLanguages => languages.Where(l => l.StartsWith(searchTerm ?? "", StringComparison.InvariantCultureIgnoreCase));
+    private IEnumerable<LanguageApiModel> filteredLanguages => languages.Where(l => l.Name.StartsWith(searchTerm ?? "", StringComparison.InvariantCultureIgnoreCase));
+
+    protected override async Task OnInitializedAsync()
+    {
+        languages = await httpClient.GetFromJsonAsync<List<LanguageApiModel>>("api/languages");
+    }
 }
