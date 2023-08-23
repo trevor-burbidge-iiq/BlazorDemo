@@ -9,9 +9,14 @@ namespace BlazorDemo.Server.Controllers
     {
         private static List<LanguageApiModel> languages = new List<LanguageApiModel>()
         {
-            new LanguageApiModel() { Name = "C#", HasWasmCompiler = true },
             new LanguageApiModel() { Name = "C", HasWasmCompiler = true },
+            new LanguageApiModel() { Name = "Rust", HasWasmCompiler = true },
+            new LanguageApiModel() { Name = "Go", HasWasmCompiler = true },
             new LanguageApiModel() { Name = "Java", HasWasmCompiler = false },
+            new LanguageApiModel() { Name = "Python", HasWasmCompiler = false },
+            new LanguageApiModel() { Name = "C#", HasWasmCompiler = true },
+            new LanguageApiModel() { Name = "Kotlin", HasWasmCompiler = false },
+            new LanguageApiModel() { Name = "Ruby", HasWasmCompiler = false },
         };
 
         [HttpGet]
