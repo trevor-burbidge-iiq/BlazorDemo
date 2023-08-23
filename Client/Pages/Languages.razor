@@ -1,0 +1,14 @@
+﻿@page "/languages"
+
+<h3>Languages</h3>
+
+<ul>
+    @foreach (var language in languages)
+    {
+        <li>@language</li>
+    }
+</ul>
+
+@code {
+    private List<string> languages = new() { "C#", "Java", "C" };
+}
