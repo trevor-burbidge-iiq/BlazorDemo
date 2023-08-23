@@ -1,7 +1,8 @@
 ﻿@page "/languages"
+@using BlazorDemo.Client.Services;
 @using BlazorDemo.Shared.ApiModels;
 
-@inject HttpClient httpClient
+@inject ILanguageService languageService
 
 <h3>
     Languages
@@ -31,7 +32,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        languages = await GetLanguages();
+        languages = await languageService.GetLanguages();
     }
 
 
@@ -40,20 +41,14 @@
     {
         if (string.IsNullOrEmpty(newLanguageName)) return;
 
-        await httpClient.PostAsJsonAsync("api/languages", new LanguageApiModel
+        await languageService.AddLanguage(new LanguageApiModel
         {
             HasWasmCompiler = false,
             Name = newLanguageName
         });
 
-        languages = await GetLanguages();
+        languages = await languageService.GetLanguages();
 
         newLanguageName = null;
-    }
-
-    private async Task<List<LanguageApiModel>> GetLanguages()
-    {
-        var languages = await httpClient.GetFromJsonAsync<List<LanguageApiModel>>("api/languages");
-        return languages.OrderBy(l => l.Name).ToList();
     }
 }
