@@ -17,7 +17,7 @@
 <ul>
     @foreach (var language in filteredLanguages)
     {
-        <li>@language.Name</li>
+        <li><LanguageDisplay Name="@language.Name" HasWasmCompiler="language.HasWasmCompiler"></LanguageDisplay></li>
     }
 </ul>
 
