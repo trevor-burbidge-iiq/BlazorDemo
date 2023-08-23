@@ -1,0 +1,6 @@
+﻿<span class="@(HasWasmCompiler ? "text-success" : "text-warning")">@Name</span>
+
+@code {
+    [Parameter] public string Name { get; set; }
+    [Parameter] public bool HasWasmCompiler { get; set; }
+}
