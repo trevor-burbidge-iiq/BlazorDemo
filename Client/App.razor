@@ -1,0 +1,10 @@
+﻿<div class="p-4">
+    <Router AppAssembly="@typeof(App).Assembly">
+        <Found Context="routeData">
+            <RouteView RouteData="@routeData" />
+        </Found>
+        <NotFound>
+            <p>Sorry, there's nothing at this address. <NavLink href="/">Return home</NavLink></p>
+        </NotFound>
+    </Router>
+</div>
