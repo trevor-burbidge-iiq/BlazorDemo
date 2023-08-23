@@ -4,7 +4,7 @@
 @inject HttpClient httpClient
 
 <h3>
-    Languages 
+    Languages
     @if (!string.IsNullOrEmpty(searchTerm))
     {
         <span class="text-secondary">(Starting with "@searchTerm")</span>
@@ -20,6 +20,10 @@
     }
 </ul>
 
+<h4>Add language</h4>
+<input @bind-value="newLanguageName" />
+<button @onclick="AddLanguage">Add</button>
+
 @code {
     private List<LanguageApiModel> languages = new();
     private string? searchTerm;
@@ -27,7 +31,29 @@
 
     protected override async Task OnInitializedAsync()
     {
-        languages = await httpClient.GetFromJsonAsync<List<LanguageApiModel>>("api/languages");
-        languages = languages.OrderBy(l => l.Name).ToList();
+        languages = await GetLanguages();
+    }
+
+
+    private string? newLanguageName;
+    private async Task AddLanguage()
+    {
+        if (string.IsNullOrEmpty(newLanguageName)) return;
+
+        await httpClient.PostAsJsonAsync("api/languages", new LanguageApiModel
+        {
+            HasWasmCompiler = false,
+            Name = newLanguageName
+        });
+
+        languages = await GetLanguages();
+
+        newLanguageName = null;
+    }
+
+    private async Task<List<LanguageApiModel>> GetLanguages()
+    {
+        var languages = await httpClient.GetFromJsonAsync<List<LanguageApiModel>>("api/languages");
+        return languages.OrderBy(l => l.Name).ToList();
     }
 }
