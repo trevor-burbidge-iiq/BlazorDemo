@@ -3,6 +3,7 @@
 @using BlazorDemo.Shared.ApiModels;
 
 @inject ILanguageService languageService
+@inject IJSRuntime js
 
 <h3>
     Languages
@@ -40,6 +41,12 @@
     private async Task AddLanguage()
     {
         if (string.IsNullOrEmpty(newLanguageName)) return;
+
+        if (languages.Any(l => l.Name == newLanguageName))
+        {
+            await js.InvokeVoidAsync("alert", "Language already exists!");
+            return;
+        }
 
         await languageService.AddLanguage(new LanguageApiModel
         {
